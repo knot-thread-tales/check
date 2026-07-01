@@ -817,17 +817,26 @@ function renderNav() {
 function initMobileMenu() {
   const btn = document.getElementById('menuToggle');
   const drawer = document.getElementById('mobileDrawer');
+  const backdrop = document.getElementById('drawerBackdrop');
   if (!btn || !drawer) return;
   btn.addEventListener('click', () => {
     const open = drawer.classList.toggle('drawer--open');
     btn.setAttribute('aria-expanded', open);
+    backdrop?.classList.toggle('is-visible', open);
     document.body.style.overflow = open ? 'hidden' : '';
   });
   drawer.querySelector('.drawer-close')?.addEventListener('click', closeMobileMenu);
+  // Close on outside click (clicking the dimmed backdrop)
+  backdrop?.addEventListener('click', closeMobileMenu);
+  // Close on Escape
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape' && drawer.classList.contains('drawer--open')) closeMobileMenu();
+  });
 }
 
 function closeMobileMenu() {
   document.getElementById('mobileDrawer')?.classList.remove('drawer--open');
+  document.getElementById('drawerBackdrop')?.classList.remove('is-visible');
   document.getElementById('menuToggle')?.setAttribute('aria-expanded', 'false');
   document.body.style.overflow = '';
 }
@@ -872,34 +881,36 @@ async function renderHero() {
   if (!hero) return;
   hero.innerHTML = `
     <div class="hero__bg"><div class="hero__particles" id="heroParticles"></div></div>
-    <div class="hero__content">
-      <div class="hero-announce">
-        <span class="hero-announce__dot"></span>
-        <span id="buyTicker" class="ticker--in">🛍️ Loading…</span>
+    <div class="container hero__inner">
+      <div class="hero__content">
+        <div class="hero-announce">
+          <span class="hero-announce__dot"></span>
+          <span id="buyTicker" class="ticker--in">🛍️ Loading…</span>
+        </div>
+        <span class="hero__eyebrow">✨ Handcrafted with Love</span>
+        <h1 class="hero__title">Where Every Stitch<br>Tells a <em>Story</em></h1>
+        <p class="hero__sub">Premium crochet, embroidery &amp; personalized gifts — crafted just for you, shipped pan India.</p>
+        <div class="hero__offer">
+          <span class="hero__offer-label">🔥 Today's offer ends in</span>
+          <span id="offerCountdown" class="hero__countdown"></span>
+        </div>
+        <div class="hero__actions">
+          <a href="#/products" data-route="/products" class="btn btn--primary btn--lg">Explore Collection</a>
+          <a href="#/about" data-route="/about" class="btn btn--ghost btn--lg">Our Story</a>
+        </div>
+        <div class="hero__trust">
+          <span>🎨 100% Handmade</span><span>✨ Customizable</span>
+          <span>📦 Pan India Delivery</span>
+          <span class="hero__live"><span class="live-dot"></span> <span id="liveVisitors">--</span> viewing now</span>
+        </div>
       </div>
-      <span class="hero__eyebrow">✨ Handcrafted with Love</span>
-      <h1 class="hero__title">Where Every Stitch<br>Tells a <em>Story</em></h1>
-      <p class="hero__sub">Premium crochet, embroidery &amp; personalized gifts — crafted just for you, shipped pan India.</p>
-      <div class="hero__offer">
-        <span class="hero__offer-label">🔥 Today's offer ends in</span>
-        <span id="offerCountdown" class="hero__countdown"></span>
-      </div>
-      <div class="hero__actions">
-        <a href="#/products" data-route="/products" class="btn btn--primary btn--lg">Explore Collection</a>
-        <a href="#/about" data-route="/about" class="btn btn--ghost btn--lg">Our Story</a>
-      </div>
-      <div class="hero__trust">
-        <span>🎨 100% Handmade</span><span>✨ Customizable</span>
-        <span>📦 Pan India Delivery</span>
-        <span class="hero__live"><span class="live-dot"></span> <span id="liveVisitors">--</span> viewing now</span>
-      </div>
-    </div>
-    <div class="hero__visual" aria-hidden="true">
-      <div class="hero__visual-ring"></div>
-      <div class="hero__visual-card">
-        <div class="hero__visual-badge">🧶 New Collection 2025</div>
-        <div class="hero__visual-emoji">🧶<br>🎀<br>🌸</div>
-        <div class="hero__visual-stars">★★★★★ <span>4.9 / 5</span></div>
+      <div class="hero__visual" aria-hidden="true">
+        <div class="hero__visual-ring"></div>
+        <div class="hero__visual-card">
+          <div class="hero__visual-badge">🧶 New Collection 2025</div>
+          <div class="hero__visual-emoji">🧶<br>🎀<br>🌸</div>
+          <div class="hero__visual-stars">★★★★★ <span>4.9 / 5</span></div>
+        </div>
       </div>
     </div>`;
 
