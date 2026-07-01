@@ -714,48 +714,61 @@
 
   <!-- Order Modal -->
   <div id="orderModal" class="modal" role="dialog" aria-modal="true" aria-label="Place Order" aria-hidden="true">
-    <div class="modal-box" style="width:min(540px,96vw);">
-      <button class="modal-close" onclick="closeModal('orderModal')" aria-label="Close order form">&times;</button>
-      <h2 class="modal-title">🛍️ Place Your Order</h2>
-      <div class="order-product-summary">
-        <p class="pname order-product-name"></p>
-        <p class="pcode order-product-code"></p>
-        <p class="pprice order-product-price"></p>
+    <div class="modal-box order-modal-box" style="width:min(540px,96vw);">
+
+      <!-- ── Sticky header ── -->
+      <div class="modal-header">
+        <div class="modal-header__text">
+          <h2 class="modal-title">🛍️ Place Your Order</h2>
+          <div class="order-product-summary">
+            <p class="pname order-product-name"></p>
+            <p class="pcode order-product-code"></p>
+            <p class="pprice order-product-price"></p>
+          </div>
+        </div>
+        <button class="modal-close" onclick="closeModal('orderModal')" aria-label="Close order form">&times;</button>
       </div>
-      <form id="orderForm" onsubmit="submitOrder(event)" novalidate>
-        <div class="form-row">
-          <div class="form-group">
-            <label for="customerName">Full Name <span class="form-required">*</span></label>
-            <input type="text" id="customerName" name="customerName" placeholder="Your name" required autocomplete="name">
+
+      <!-- ── Scrollable body ── -->
+      <div class="modal-body">
+        <form id="orderForm" onsubmit="submitOrder(event)" novalidate>
+          <div class="form-row">
+            <div class="form-group">
+              <label for="customerName">Full Name <span class="form-required">*</span></label>
+              <input type="text" id="customerName" name="customerName" placeholder="Your name" required autocomplete="name">
+            </div>
+            <div class="form-group">
+              <label for="customerPhone">Mobile Number <span class="form-required">*</span></label>
+              <input type="tel" id="customerPhone" name="customerPhone" placeholder="10-digit number" required autocomplete="tel" pattern="[0-9]{10,12}">
+            </div>
           </div>
           <div class="form-group">
-            <label for="customerPhone">Mobile Number <span class="form-required">*</span></label>
-            <input type="tel" id="customerPhone" name="customerPhone" placeholder="10-digit number" required autocomplete="tel" pattern="[0-9]{10,12}">
+            <label for="customerAddress">Delivery Address <span class="form-required">*</span></label>
+            <textarea id="customerAddress" name="customerAddress" placeholder="House No., Street, Area, City, State" required rows="3" autocomplete="street-address"></textarea>
           </div>
-        </div>
-        <div class="form-group">
-          <label for="customerAddress">Delivery Address <span class="form-required">*</span></label>
-          <textarea id="customerAddress" name="customerAddress" placeholder="House No., Street, Area, City, State" required rows="3" autocomplete="street-address"></textarea>
-        </div>
-        <div class="form-row">
-          <div class="form-group">
-            <label for="customerPincode">Pincode <span class="form-required">*</span></label>
-            <input type="text" id="customerPincode" name="customerPincode" placeholder="6-digit pincode" required pattern="[0-9]{6}" autocomplete="postal-code">
+          <div class="form-row">
+            <div class="form-group">
+              <label for="customerPincode">Pincode <span class="form-required">*</span></label>
+              <input type="text" id="customerPincode" name="customerPincode" placeholder="6-digit pincode" required pattern="[0-9]{6}" autocomplete="postal-code">
+            </div>
+            <div class="form-group">
+              <label for="customerQty">Quantity <span class="form-required">*</span></label>
+              <input type="number" id="customerQty" name="customerQty" value="1" min="1" max="99" required>
+            </div>
           </div>
-          <div class="form-group">
-            <label for="customerQty">Quantity <span class="form-required">*</span></label>
-            <input type="number" id="customerQty" name="customerQty" value="1" min="1" max="99" required>
+          <div class="form-group" style="margin-bottom:0;">
+            <label for="customizationNotes">Customization / Special Notes</label>
+            <textarea id="customizationNotes" name="customizationNotes" placeholder="Color preferences, name to embroider, size, any special requests…" rows="3"></textarea>
           </div>
-        </div>
-        <div class="form-group">
-          <label for="customizationNotes">Customization / Special Notes</label>
-          <textarea id="customizationNotes" name="customizationNotes" placeholder="Color preferences, name to embroider, size, any special requests…" rows="3"></textarea>
-        </div>
-        <div class="form-actions">
-          <button type="button" class="btn btn--outline" onclick="closeModal('orderModal')">Cancel</button>
-          <button type="submit" class="btn btn--primary" style="flex:1;">Send Order via WhatsApp 💬</button>
-        </div>
-      </form>
+        </form>
+      </div>
+
+      <!-- ── Sticky footer with buttons ── -->
+      <div class="modal-footer">
+        <button type="button" class="btn btn--outline modal-footer__cancel" onclick="closeModal('orderModal')">Cancel</button>
+        <button type="submit" form="orderForm" class="btn btn--primary modal-footer__submit">Send Order via WhatsApp 💬</button>
+      </div>
+
     </div>
   </div>
 
